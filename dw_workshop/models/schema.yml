@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: dbsalesworkshop
+    schema: public
+    tables: 
+      - name: commodities
+        description: "table with commodities historical data"
+        columns:
+          - name: Date
+            description: "observation date"
+          - name: Close
+            description: "commodity closing price"
+          - name: symbol
+            description: "commodity symbol"
+
