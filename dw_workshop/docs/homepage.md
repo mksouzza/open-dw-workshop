@@ -1,32 +1,33 @@
 {% docs __overview__ %}
 
-### README do Projeto DBT-Core
 
-# Projeto DBT-Core para Data Warehouse de Commodities
+# DBT-Core Project for Commodities Data Warehouse
 
-Este projeto utiliza DBT (Data Build Tool) para gerenciar e transformar dados de um Data Warehouse (DW) de commodities. O objetivo é criar um pipeline de dados robusto e eficiente que trata e organiza os dados de commodities e suas movimentações para análise.
+This project uses **DBT (Data Build Tool)** to manage and transform data in a **Commodities Data Warehouse (DW)**. The goal is to build a robust and efficient data pipeline that processes and organizes commodity data and their movements for analysis.
 
-## Estrutura do Projeto
+---
+
+## 📁 Project Structure
 
 ```mermaid
 graph TD
-    A[Início] --> B[Extrair Dados das Commodities]
-    B --> C[Transformar Dados das Commodities]
-    C --> D[Carregar Dados no PostgreSQL]
-    D --> E[Fim]
+    A[Start] --> B[Extract Commodity Data]
+    B --> C[Transform Commodity Data]
+    C --> D[Load Data into PostgreSQL]
+    D --> E[End]
 
-    subgraph Extrair
-        B1[Buscar Dados de Cada Commodity]
-        B2[Adicionar Dados na Lista]
+    subgraph Extract
+        B1[Fetch Each Commodity's Data]
+        B2[Append Data to List]
     end
 
-    subgraph Transformar
-        C1[Concatenar Todos os Dados]
-        C2[Preparar DataFrame]
+    subgraph Transform
+        C1[Concatenate All Data]
+        C2[Prepare DataFrame]
     end
 
-    subgraph Carregar
-        D1[Salvar DataFrame no PostgreSQL]
+    subgraph Load
+        D1[Save DataFrame to PostgreSQL]
     end
 
     B --> B1
@@ -38,36 +39,42 @@ graph TD
     D --> D1
 ```
 
+---
+
+## 🧾 Components
+
 ### 1. Seeds
 
-Os seeds são dados estáticos que são carregados no Data Warehouse a partir de arquivos CSV. Neste projeto, usamos seeds para carregar dados de movimentações de commodities.
+Seeds are static datasets loaded into the Data Warehouse from CSV files. In this project, seeds are used to load commodity movement data.
 
 ### 2. Models
 
-Os models definem as transformações de dados usando SQL. Eles são divididos em duas camadas principais: staging e datamart.
+Models define data transformations using SQL and are divided into two main layers:
 
 #### Staging
 
-A camada de staging é responsável por preparar e limpar os dados antes que eles sejam carregados nas tabelas finais de análise.
+Responsible for preparing and cleaning data before analysis:
 
-- **stg_commodities.sql**: Trata e formata os dados das commodities extraídos da API.
-- **stg_movimentacao_commodities.sql**: Trata e formata os dados de movimentações das commodities.
+- `stg_commodities.sql`: Cleans and formats commodity data from the API.
+- `stg_movimentacao_commodities.sql`: Cleans and formats commodity movement data.
 
 #### Datamart
 
-A camada de datamart é onde os dados finais de análise são armazenados. Eles são baseados nos dados preparados pela camada de staging.
+Final layer containing analysis-ready data:
 
-- **dm_commodities.sql**: Integra os dados tratados das commodities e das movimentações, criando um modelo de dados final para análise.
+- `dm_commodities.sql`: Integrates commodity and movement data to create the final model.
 
 ### 3. Sources
 
-Os sources são as tabelas ou arquivos de origem dos dados que o DBT utiliza para realizar as transformações.
+Sources are the raw tables or files DBT reads from to perform transformations.
 
 ### 4. Snapshots
 
-Os snapshots são utilizados para manter um histórico de como os dados mudam ao longo do tempo.
+Snapshots are used to maintain historical changes in the data over time.
 
-## Estrutura de Diretórios
+---
+
+## 📂 Directory Structure
 
 ```plaintext
 ├── models
@@ -82,30 +89,31 @@ Os snapshots são utilizados para manter um histórico de como os dados mudam ao
 └── README.md
 ```
 
-## Executando o Projeto
+---
 
-### Requisitos
+## 🚀 Running the Project
+
+### Requirements
 
 - Python 3.7+
 - DBT
 
-### Passos para Execução
+### Setup Steps
 
-1. **Clonar o Repositório**:
+1. **Clone the Repository**
    ```bash
-   git clone <URL-do-Repositório>
-   cd <Nome-do-Repositório>
+   git clone <repository-url>
+   cd <repository-folder>
    ```
 
-2. **Instalar o DBT**:
+2. **Install DBT**
    ```bash
    pip install dbt-core dbt-postgres
    ```
 
-3. **Configurar o DBT**:
-   - Configure o arquivo `profiles.yml` para se conectar ao seu Data Warehouse. O arquivo deve estar no diretório `~/.dbt/` ou no diretório especificado pela variável de ambiente `DBT_PROFILES_DIR`.
+3. **Configure DBT**
+   Create or update `profiles.yml` (location: `~/.dbt/` or path defined by `DBT_PROFILES_DIR`):
 
-   Exemplo de `profiles.yml`:
    ```yaml
    databasesales:
      target: dev
@@ -121,39 +129,46 @@ Os snapshots são utilizados para manter um histórico de como os dados mudam ao
          threads: 1
    ```
 
-4. **Executar os Seeds do DBT**:
+4. **Run Seeds**
    ```bash
    dbt seed
    ```
 
-5. **Executar as Transformações do DBT**:
+5. **Run Transformations**
    ```bash
    dbt run
    ```
 
-6. **Verificar o Estado do Projeto**:
+6. **Run Tests**
    ```bash
    dbt test
    ```
 
-## Contribuição
+---
 
-Para contribuir com o projeto, por favor, faça um fork do repositório e envie um pull request com suas alterações.
+## 🤝 Contribution
+
+To contribute to this project:
+
+1. Fork the repository.
+2. Create a new branch.
+3. Submit a pull request with your changes.
 
 ---
 
-### Descrição dos Models
+## 📘 Model Descriptions
 
-#### stg_commodities.sql
+### `stg_commodities.sql`
 
-Este model é responsável por tratar e formatar os dados das commodities extraídos da API. Ele faz a limpeza e transformação necessárias para preparar os dados para o datamart.
+Handles cleaning and formatting of commodity data extracted from the API. Prepares data for the datamart layer.
 
-#### stg_movimentacao_commodities.sql
+### `stg_movimentacao_commodities.sql`
 
-Este model é responsável por tratar e formatar os dados de movimentações das commodities. Ele faz a limpeza e transformação necessárias para preparar os dados para o datamart.
+Handles cleaning and formatting of commodity movement data. Prepares it for the datamart layer.
 
-#### dm_commodities.sql
+### `dm_commodities.sql`
 
-Este model integra os dados tratados das commodities e das movimentações, criando um modelo de dados final para análise. Ele calcula métricas e agrega os dados para facilitar a análise no dashboard.
+Combines cleaned commodity and movement data. Builds the final dataset used in dashboards and analytics, including metrics and aggregations.
+
 
 {% enddocs %}
