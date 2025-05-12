@@ -21,9 +21,9 @@ DB_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAM
 engine = create_engine(DB_URL)
 
 def get_data():
-    query = f""" select * from public.dm_commodities; """
+    query = f""" select * from public.commodities; """
 
-    df pd.read_sql(query, engine)
+    df = pd.read_sql(query, engine)
     return df
 
 st.set_page_config(page_title="Commodities Dashboard", layout="wide")
